@@ -1,7 +1,7 @@
 // GAME VALUES
 let min = 1,
   max = 10,
-  winningNum = 2,
+  winningNum = getRandomWinningNum(min, max),
   guessesLeft = 3;
 
 // UI ELEMENTS
@@ -18,6 +18,13 @@ const game = document.querySelector("#game"),
 minNum.innerText = min;
 maxNum.innerText = max;
 
+// Play Again Event Listener
+game.addEventListener("mousedown", function (e) {
+  if (e.target.className === "play-again") {
+    window.location.reload();
+  }
+});
+
 // Listening for click on Submit
 
 guessButton.addEventListener("click", function () {
@@ -29,7 +36,7 @@ guessButton.addEventListener("click", function () {
   }
 
   // Check if the number entered is the correct Number or not
-  if (guess === winningNum) {
+  else if (guess === winningNum) {
     gameOver(true, `${winningNum} is correct.. You Won`);
   } else {
     // * The Loose Case
@@ -80,4 +87,13 @@ function gameOver(won, msg) {
   message.style.borderColor = color;
 
   setMessage(msg, color);
+
+  // PLAY AGAIN CASE
+  guessButton.value = "Play Again";
+  guessButton.className += "play-again";
+}
+
+// Generate a random winning number
+function getRandomWinningNum(min, max) {
+  return Math.floor(Math.random() * (max - min + 1) + min);
 }
